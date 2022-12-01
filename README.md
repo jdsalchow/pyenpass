@@ -21,3 +21,6 @@ optional arguments:
   --vault_name VAULT_NAME
                         name of the vault, absolute or relative to vault directory (default: primary)
 ```
+
+## Installation
+`pip3 install git+https://github.com/jdsalchow/pyenpass.git`
