@@ -1,0 +1,22 @@
+[project]
+name = "pyenpass"
+version = "0.0.1"
+description = "Read enpass vault from the command line assuming the master password is in the osx keychain."
+authors = [{name="Jan-David Salchow"}]
+requires-python = ">=3.7"
+dependencies = ["pycryptodome", "pysqlcipher3"]
+license = {file = "license"}
+
+[project.urls]
+"Homepage" = "https://www.github.com/jdsalchow/pyenpass"
+
+[project.scripts]
+pyenpass = "pyenpass.main:run"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tools.setuptools.packages.find]
+where = ["src"]
+
