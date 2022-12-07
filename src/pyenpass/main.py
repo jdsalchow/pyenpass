@@ -23,21 +23,26 @@ def run():
                         help="directory in which to look for enpass vaults",
                         default=Path.home().joinpath(".enpass/Enpass/Vaults").as_posix(), type=str)
     parser.add_argument("--vault_name",
-                        help="name of the vault, absolute or relative to vault directory", default="primary", type=str)
+                        help="name of the vault, absolute or relative to vault directory", default="Primary", type=str)
 
-    parser.add_argument("item_name", type=str)
+    parser.add_argument("item_name", type=str, nargs='?')
     parser.add_argument("field_name", type=str, nargs='?')
 
     args = parser.parse_args()
 
-    vault = enpass.Vault(args.vault_name if Path(args.vault_name).is_absolute()
-                         else Path(args.vault_directory).joinpath(args.vault_name),
-                         password_from_osx_keychain(account=args.vault_name))
+    vault = enpass.Vault(args.vault_directory, args.vault_name, password_from_osx_keychain(account=args.vault_name))
 
-    if args.field_name is None:
+    if args.item_name is None:
+        for item in vault.retrieve_items():
+            print(item)
+    elif args.field_name is None:
         items = vault.retrieve_fields(args.item_name).items()
         max_length = max(map(lambda item: len(item[0]), items))
         for field_name, value in items:
             print(f"{field_name.ljust(max_length)} | {value}")
     else:
         print(vault.retrieve_field(args.item_name, args.field_name), end='' if args.n else '\n')
+
+
+if __name__ == "__main__":
+    run()
